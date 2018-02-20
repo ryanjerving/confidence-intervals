@@ -27,7 +27,8 @@ This will make sure your results don't change each time you knit, and it will al
 ensure reproducibility of your work (by setting the same seed it will be possible to 
 reproduce your results). You can set a seed like this:
 ```{r set-seed}
-set.seed(9102015)                 # make sure to change the seed
+set.seed(8675309)                 # I'll use this seed for this lab
+                                  # ...for Jenny.
 ```
 The number above is completely arbitraty. If you need inspiration, you can use your
 ID, birthday, or just a random string of numbers. The important thing is that you
@@ -73,8 +74,8 @@ portion of the lab we'll focus on the size of the house, represented by the
 variable `area`.
 
 ```{r sample}
-n <- 60
-samp <- sample_n(ames, n)
+n <- 60                       # create a sample of size n
+samp <- sample_n(ames, n)     # using dplyr's sample_n function
 ```
 
 <div id="exercise">
@@ -83,9 +84,18 @@ say is the "typical" size within your sample? Also state precisely what you
 interpreted "typical" to mean.
 </div>
 ```{r describe-sample}
-# type your code for the Exercise here, and Knit
+# Finding the median, mean, and standard deviation of our sample, and plotting the distribution in a histogram
+
+samp %>%
+  summarise(median = median(area), x_bar = mean(area), sd_x = sd(area))
+
+ggplot(samp, aes(x=area)) + geom_histogram(binwidth = 250)
 
 ```
+
+In my particular sample, the median and mean appear closer than I know them to be from examining the population as a whole, which has a more right-skewed distribution due to the left-side limit (homes can't be less than 0 square feet) and the presence of some outliers at the more Xanadu-like extremes of home size.
+
+But for sake of this exercise, I'll note that the median (1480 sq. ft.) and mean (1475 sq. ft) are close enough to be almost interchangeable, with the histogram of the distribution revealing just a slight right skew to an otherwise nearly normal distribution. So I'll say that the "typical" home in Ames is defined by the point estimate provided by this sample mean and its standard deviation: 1475 sq. ft., give or take 418 sq. ft.
 
 1. True or False: My distribution should be similar to others' distributions who also collect random samples from this population, but it is likely not exactly the same since it's a random sample.
 <ol>
