@@ -203,6 +203,7 @@ False.
 </li>
 </ol></li>
 </ol>
+<p><em>True</em> – For a nearly normal distribution of sufficient sample size (n &gt; 30), and assuming independence due to random sample of less than 10% of the population, the Central Limit Theorem says most means will be pretty close, and with a similar, but not exact, distribution.</p>
 </div>
 </div>
 <div id="confidence-intervals" class="section level2">
@@ -238,6 +239,7 @@ The sample distribution must be nearly normal.
 </li>
 </ol></li>
 </ol>
+<p>Both A and B are necessary conditions for assuming the independence of our observations. Provided this indepedence exists and our sample size is large enough (with 60 double the rule of thumb of n &gt;= 30), some skew in the sample itself is allowed for while still enabling our confidence that the distribution of sample means will fall within the interval we’ve identified at the confidence level we’ve set.</p>
 </div>
 <div id="confidence-levels" class="section level2">
 <h2>Confidence levels</h2>
@@ -258,6 +260,8 @@ The sample distribution must be nearly normal.
 </li>
 </ol></li>
 </ol>
+<p>False answers. A) There is only one true average, which we’ve either gotten wrong or right with our particular interval. C) As the std dev. of 418 ft. suggests, the variance within our sample is much larger than the variance within the means we are likely to sample. D) We are 100% confident that our sample mean is in this interval: we constructed the interval around it!</p>
+<p>The right answer is C): we can think of the CI as the net we construct to catch the true mean. If we construct it at the right width, we can be confident that 95% of the time we’d catch our fish.</p>
 <p>In this case we have the rare luxury of knowing the true population mean since we have data on the entire population. Let’s calculate this value so that we can determine if our confidence intervals actually capture it. We’ll store it in a data frame called <code>params</code> (short for population parameters), and name it <code>mu</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">params &lt;-<span class="st"> </span>ames <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(area))</code></pre></div>

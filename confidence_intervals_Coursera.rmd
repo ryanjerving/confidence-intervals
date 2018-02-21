@@ -103,6 +103,8 @@ But for sake of this exercise, I'll note that the median (1480 sq. ft.) and mean
 <li> False. </li>
 </ol>
 
+*True* -- For a nearly normal distribution of sufficient sample size (n > 30), and assuming independence due to random sample of less than 10% of the population, the Central Limit Theorem says most means will be pretty close, and with a similar, but not exact, distribution.
+
 ## Confidence intervals
 
 Return for a moment to the question that first motivated this lab: based on 
@@ -151,6 +153,8 @@ and *upper*. There are a few conditions that must be met for this interval to be
 <li> The sample distribution must be nearly normal. </li>
 </ol>
 
+Both A and B are necessary conditions for assuming the independence of our observations. Provided this indepedence exists and our sample size is large enough (with 60 double the rule of thumb of n >= 30), some skew in the sample itself is allowed for while still enabling our confidence that the distribution of sample means will fall within the interval we've identified at the confidence level we've set.
+
 
 ## Confidence levels
 
@@ -161,6 +165,10 @@ and *upper*. There are a few conditions that must be met for this interval to be
 <li> 95% of the houses in Ames have an area in this interval. </li>
 <li> 95% confident that the sample mean is in this interval. </li>
 </ol>
+
+False answers. A) There is only one true average, which we've either gotten wrong or right with our particular interval. C) As the std dev. of 418 ft. suggests, the variance within our sample is much larger than the variance within the means we are likely to sample. D) We are 100% confident that our sample mean is in this interval: we constructed the interval around it!
+
+The right answer is C): we can think of the CI as the net we construct to catch the true mean. If we construct it at the right width, we can be confident that 95% of the time we'd catch our fish.
 
 In this case we have the rare luxury of knowing the true population mean since we 
 have data on the entire population. Let's calculate this value so that
