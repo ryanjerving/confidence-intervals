@@ -170,22 +170,37 @@ False answers. A) There is only one true average, which we've either gotten wron
 
 The right answer is C): we can think of the CI as the net we construct to catch the true mean. If we construct it at the right width, we can be confident that 95% of the time we'd catch our fish.
 
+----
+
 In this case we have the rare luxury of knowing the true population mean since we 
 have data on the entire population. Let's calculate this value so that
-we can determine if our confidence intervals actually capture it. We'll store it in a
-data frame called `params` (short for population parameters), and name it `mu`.
+we can determine if our confidence intervals actually capture it. We'll store it in a data frame called `params` (short for population parameters), and name it `mu`.
 
 ```{r pop-mean}
+
 params <- ames %>%
   summarise(mu = mean(area))
+
 ```
 
 <div id="exercise">
 **Exercise**: Does your confidence interval capture the true average size of houses in 
 Ames?
 </div>
+
 ```{r check-ci-contain-true-mean}
-# type your code for the Exercise here, and Knit
+# Let's find out the value of mu, the true pop. mean of house size:
+
+params
+
+# And using the interval we found above (1369, 1581), let's test to see whether mu falls within it.
+
+lower = 1369
+upper = 1581
+mu = as.numeric(params)
+
+does_ci_contain_mu = (mu >= lower & mu <= upper)
+does_ci_contain_mu
 
 ```
 
@@ -193,7 +208,7 @@ Ames?
 <ol>
 <li> 1% </li>
 <li> 5% </li>
-<li> 95% </li>
+<li> **95%** </li>
 <li> 99% </li>
 </ol>
 
@@ -301,6 +316,9 @@ Is this proportion exactly equal to the confidence level? If not, explain why.
 ```{r find-99-perc-crit-val}
 # type your code for the Question 5 here, and Knit
 
+z_star_99 = qnorm(0.995)   # remembering to leave 0.5 at both ends 
+z_star_99                  # to capture the middle 99%
+
 ```
 
 <div id="exercise">
@@ -309,11 +327,37 @@ Is this proportion exactly equal to the confidence level? If not, explain why.
 ```{r plot-99-perc-cis}
 # type your code for the Exercise here, and Knit
 
+z_factor = z_star_99 / z_star_95
+
+ci_99 <- ci %>%
+  mutate(lower = (ci$lower + ci$upper)/2 - ((ci$lower + ci$upper)/2 - ci$lower) * z_factor,
+         upper = (ci$lower + ci$upper)/2 + (ci$upper - (ci$lower + ci$upper)/2) * z_factor,
+         capture_mu = ifelse(lower < params$mu &
+                                  upper > params$mu,
+                                "yes", "no"))
+
+
+ci_data_99 <- data.frame(ci_id = c(1:50, 1:50),
+                      ci_bounds = c(ci_99$lower, ci_99$upper),
+                      capture_mu = c(ci_99$capture_mu, ci_99$capture_mu))
+
+
+ggplot(data = ci_data_99,
+       aes(x = ci_bounds,
+           y = ci_id,
+           group = ci_id,
+           color = capture_mu)) +
+  geom_point(size = 2) +
+  geom_line() +
+  geom_vline(xintercept = params$mu,
+             color = "darkgray")
+
+
 ```
 
 6. We would expect 99% of the intervals to contain the true population mean.
 <ol>
-<li> True </li>
+<li> **True** </li>
 <li> False </li>
 </ol>
 
